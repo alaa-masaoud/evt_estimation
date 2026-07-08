@@ -71,6 +71,11 @@ DISTRIBUTIONS: List[DistributionSpec] = [
     DistributionSpec("Beta(2,2)",    2.0, lambda rng, n: rng.beta(2.0, 2.0, size=n)),
     DistributionSpec("Beta(2,5)",    2.0, lambda rng, n: rng.beta(2.0, 5.0, size=n)),
     DistributionSpec("Beta(3,10)",   3.0, lambda rng, n: rng.beta(3.0, 10.0, size=n)),
+    DistributionSpec("Power(alpha=2)",  2.0, lambda rng, n: rng.random(size=n)**(1.0/2.0)),
+    DistributionSpec("Power(alpha=3)",  3.0, lambda rng, n: rng.random(size=n)**(1.0/3.0)),
+    DistributionSpec("Power(alpha=4)",  4.0, lambda rng, n: rng.random(size=n)**(1.0/4.0)),
+    DistributionSpec("Power(alpha=5)",  5.0, lambda rng, n: rng.random(size=n)**(1.0/5.0)),
+    DistributionSpec("Power(alpha=10)", 10.0, lambda rng, n: rng.random(size=n)**(1.0/10.0)),
 ]
 
 

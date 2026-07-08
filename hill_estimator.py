@@ -1,32 +1,36 @@
 import numpy as np
-import sys
-sys.path.insert(0, '/mnt/user-data/uploads')
-from hill_estimator import hill_estimator
 
 
-def weibull_hill_estimator(data, k, right_endpoint=None):
+def hill_estimator(data, k):
+    """
+    Standard Hill estimator for upper-tail Frechet-domain data.
 
-    x = np.asarray(data, dtype=float)
-    x = x[np.isfinite(x)]
-    x = np.sort(x)
-    n = len(x)
+    In main.py, lower-tail Weibull data X is already transformed by:
+        Y = 1 / (X - lower_endpoint)
 
-    if right_endpoint is None:
-        x_F = _estimate_endpoint(x)
-    else:
-        x_F = right_endpoint
+    So this function estimates gamma from Y.
+    Then main.py converts alpha = 1 / gamma.
+    """
 
-    if np.any(x >= x_F):
-        raise ValueError()
+    y = np.asarray(data, dtype=float)
+    y = y[np.isfinite(y)]
+    y = y[y > 0]
+    y = np.sort(y)
 
-    y = 1.0 / (x_F - x)          
-    gamma_hat = hill_estimator(y, k)   
-    xi_hat = -gamma_hat
+    n = len(y)
 
-    return xi_hat, x_F
+    if k <= 0 or k >= n:
+        raise ValueError("Need 0 < k < n")
 
+    threshold = y[-k - 1]
+    top_k = y[-k:]
 
-def _estimate_endpoint(x_sorted, gap=1):
- 
-    n = len(x_sorted)
-    return x_sorted[-1] + (x_sorted[-1] - x_sorted[-1 - gap])
+    if threshold <= 0:
+        return np.nan
+
+    gamma_hat = np.mean(np.log(top_k) - np.log(threshold))
+
+    if not np.isfinite(gamma_hat) or gamma_hat <= 0:
+        return np.nan
+
+    return gamma_hat
