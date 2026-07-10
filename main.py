@@ -46,10 +46,10 @@ from estimators.grimshaw_mle_estimator import grimshaw_mle_estimator
 # ---------------------------------------------------------------------
 
 RANDOM_SEED = 123
-BASE_SAMPLE_SIZE = 10_000
-SUBSAMPLE_SIZE = 1_000
-N_TRIALS = 50
-N_BOOTSTRAPS = 500
+BASE_SAMPLE_SIZE = 10000
+SUBSAMPLE_SIZE = 1000
+N_TRIALS = 20
+N_BOOTSTRAPS = 100
 K_TAIL = 100
 LOWER_ENDPOINT = 0.0
 OUTPUT_DIR = Path("outputs")
