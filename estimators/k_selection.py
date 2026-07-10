@@ -20,8 +20,6 @@ def hill_k_sweep(data, k_values):
     """
     Return gamma_hat and alpha_hat for a sweep of k values.
 
-    Use this to eyeball a stable ("plateau") region of the Hill plot and
-    pick k by inspection, rather than relying on an automatic selector.
     """
     rows = []
     for k in k_values:
