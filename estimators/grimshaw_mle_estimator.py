@@ -3,43 +3,7 @@ from scipy.optimize import brentq
 
 
 def grimshaw_mle_estimator(exceedances):
-    """
-    Numerically stable GPD MLE via Grimshaw's (1993) one-dimensional profile
-    reduction. Returns (xi, beta).
-
-    NOTE ON PROVENANCE: this file replaces an earlier "zhang_lme_estimator.py"
-    that was mislabeled -- it ran a generic penalized 2-D optimizer, not
-    Zhang (2007)'s actual likelihood-moment estimating equation. I was not
-    able to retrieve Zhang's exact equations from a primary source (the
-    journal is paywalled and my fetch attempts came back empty), so rather
-    than guess at his specific formula again, this implements something I
-    *can* verify directly: reparametrizing the GPD log-likelihood by
-    theta = xi/beta reduces the two-parameter MLE to a single scalar
-    equation h(theta) = 0, solvable by bracketed root-finding instead of a
-    generic 2-D optimizer. This directly targets the same problem Zhang's
-    paper cites as motivation (MLE's convergence issues) using a method
-    I derived and checked algebraically, and confirmed numerically matches
-    scipy.stats.genpareto.fit to ~5 decimal places on simulated GPD data.
-
-    If you specifically need Zhang (2007)'s exact likelihood-moment
-    equation (which generalizes this with a tuning constant r), you should
-    verify it against the original paper -- Zhang, J. (2007), "Likelihood
-    moment estimation for the generalized Pareto distribution",
-    Aust. N. Z. J. Stat. 49(1), 69-77 -- rather than trust a reconstruction.
-
-    Derivation summary:
-      Let theta = xi/beta. The GPD log-likelihood in terms of (xi, theta) is
-        l(xi, theta) = -n*log(xi) + n*log(theta) - (1+1/xi) * sum(log(1+theta*x_i))
-      Setting dl/dxi = 0 gives:
-        xi_hat(theta) = (1/n) * sum(log(1 + theta*x_i))                 =: u(theta)
-      Setting dl/dbeta = 0 (the other original score equation, rewritten in
-      terms of theta) and substituting u(theta) for xi gives:
-        v(theta) * (u(theta) + 1) = 1,   where v(theta) = (1/n)*sum(1/(1+theta*x_i))
-      so the MLE theta_hat is the root of:
-        h(theta) = u(theta)*v(theta) + v(theta) - 1 = 0
-      Note theta=0 is always a trivial root of h (corresponding to xi=0);
-      the genuine MLE root is sought away from theta=0.
-    """
+    
     x = np.asarray(exceedances, dtype=float)
     x = x[np.isfinite(x)]
     x = x[x >= 0]

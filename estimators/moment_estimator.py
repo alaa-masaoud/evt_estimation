@@ -2,13 +2,7 @@ import numpy as np
 
 
 def moment_estimator(data, k):
-    """
-    Dekkers-Einmahl-de Haan moment estimator for the extreme value index gamma/xi.
-
-    Works with upper order statistics. In your pipeline, pass Y = 1/(X-lower_endpoint),
-    so this estimates gamma = 1/alpha. Unlike Hill, the moment formula can return
-    negative values, so main.py decides whether alpha = 1/gamma is meaningful.
-    """
+    
     y = np.asarray(data, dtype=float)
     y = y[np.isfinite(y)]
     y = y[y > 0]

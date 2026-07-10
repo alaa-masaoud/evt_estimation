@@ -8,73 +8,7 @@ def zhang_lme_estimator(
     grid_size=400,
     root_tolerance=1e-10,
 ):
-    """
-    Zhang likelihood-moment estimator for a Generalized Pareto distribution.
-
-    The GPD is parameterized as
-
-        F(x) = 1 - (1 + xi * x / beta)^(-1 / xi),
-
-    subject to
-
-        beta > 0
-        1 + xi * x / beta > 0.
-
-    Zhang's likelihood-moment estimator solves
-
-        mean(log(1 + theta * x_i)) = xi
-
-    and
-
-        mean(
-            (1 + theta * x_i) ** (r / xi)
-        ) = 1 / (1 - r),
-
-    where
-
-        theta = xi / beta.
-
-    Substituting
-
-        xi(theta) = mean(log(1 + theta * x_i))
-
-    reduces the problem to a one-dimensional root search for theta. Once
-    theta is estimated,
-
-        xi_hat = mean(log(1 + theta_hat * x_i))
-        beta_hat = xi_hat / theta_hat.
-
-    Parameters
-    ----------
-    exceedances : array-like
-        Nonnegative exceedances above a threshold.
-
-    r : float, default=-0.5
-        Likelihood-moment tuning parameter. Zhang's uniqueness result uses
-        r < 0.5 and r != 0. A negative value is normally preferred. The
-        default r=-0.5 is a common stable choice.
-
-    grid_size : int, default=400
-        Number of points used to locate a sign-changing bracket before
-        applying Brent's root solver.
-
-    root_tolerance : float, default=1e-10
-        Numerical tolerance passed to the root solver.
-
-    Returns
-    -------
-    xi_hat : float
-        Estimated GPD shape parameter.
-
-    beta_hat : float
-        Estimated GPD scale parameter.
-
-    Raises
-    ------
-    ValueError
-        If the data are invalid, r is invalid, or no admissible root can
-        be found.
-    """
+   
     x = np.asarray(exceedances, dtype=float)
     x = x[np.isfinite(x)]
     x = x[x >= 0.0]

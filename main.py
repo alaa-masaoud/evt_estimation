@@ -9,10 +9,9 @@ Workflow:
 3. Repeatedly draw subsamples of SUBSAMPLE_SIZE from that base sample, without
    replacement, to build a percentile CI for alpha_hat (the inner resampling loop).
 4. Check whether the true alpha falls inside that CI.
-5. Repeat steps 2-4 across N_TRIALS independent trials (the outer Monte Carlo
-   loop) so that "coverage" is an actual rate, not a single trial's 0/1 outcome.
+5. Repeat steps 2-4 across N_TRIALS independent trials
 6. Summarize bias, variance, MSE, mean CI length, and coverage rate per
-   distribution x estimator, and export everything to Excel.
+   distribution x estimator
 """
 
 from __future__ import annotations
